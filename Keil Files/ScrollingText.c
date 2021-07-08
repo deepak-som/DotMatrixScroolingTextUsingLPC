@@ -1,0 +1,167 @@
+
+#include<lpc21xx.h>
+
+void delay_fv(unsigned int x,int y); // delay function
+
+void pulse();   // this fuction give pulse to 74HC595 ic
+
+void data_m(int);  // this fuction give input to 74LS138
+
+void input();   // this fuction display the data on led matrix
+
+void shift_b(int);   // thuis fuction shift the data
+
+/* this fuction reverse the order of data
+eg 10110010=0xb2 after reversing it become 01001101=0x4d*/
+
+#define DISPLAY_DATA(x) (((0x80 & x)>>7)|((0x40 & x)>>5)|((0x20 & x)>>3)|((0x10 & x)>>1)  |   ((0x08 & x)<<1)|((0x04 & x)<<3)|((0x02 & x)<<5)|((0x01 & x)<<7))
+
+/* data to display on led matrix*/
+
+char ar[27][7]={
+	      0xE0,0xEF,0xEF,0xE3,0xEF,0xEF,0xEF,	 // F
+        0xF1,0xFB,0xFB,0xFB,0xFB,0xFB,0xF1,	 // I
+				0xE1,0xEE,0xEE,0xE1,0xEB,0xED,0xEE,	 // R
+			  0xEE,0xE4,0xEA,0xEA,0xEE,0xEE,0xEE,	 // M
+				0xF1,0xEE,0xEF,0xEF,0xEF,0xEE,0xF1,	 // C
+				0xF1,0xEE,0xEE,0xEE,0xEE,0xEE,0xF1,	 // O
+				0xE1,0xF6,0xF6,0xF6,0xF6,0xF6,0xE1,  // D
+				0xE0,0xEF,0xEF,0xE3,0xEF,0xEF,0xE0,  // E
+				0xF1,0xEE,0xEF,0xF1,0xFE,0xEE,0xF1,	 // S
+				0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 // space
+				0xE1,0xF6,0xF6,0xF6,0xF6,0xF6,0xE1,  // D
+				0xE0,0xEF,0xEF,0xE3,0xEF,0xEF,0xE0,  // E
+				0xEE,0xEE,0xEE,0xF5,0xF5,0xFB,0xFB,  // V  
+				0xE0,0xEF,0xEF,0xE3,0xEF,0xEF,0xE0,  // E
+				0xEF,0xEF,0xEF,0xEF,0xEF,0xEF,0xE0,  // L
+				0xF1,0xEE,0xEE,0xEE,0xEE,0xEE,0xF1,  // O
+				0xE1,0xEE,0xEE,0xE1,0xEF,0xEF,0xEF,  // P
+				0xE0,0xEF,0xEF,0xE3,0xEF,0xEF,0xE0,  // E
+				0xE1,0xEE,0xEE,0xE1,0xEB,0xED,0xEE,	 // R
+        0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 // space
+        0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 // space
+        0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 // space	
+				0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 // space
+        0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 // space
+        0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 // space	
+				0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 // space	
+				0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,	 };	// space
+
+unsigned int data,y;  // globle varible decelaration
+							 
+int main()
+{
+	unsigned int k;
+  	PINSEL0=0X00000000;   // select the GPIO mode of PIN0.0 TO PIN0.15 
+  	PINSEL1=0X00000000;   // select the GPIO mode of PIN0.16 TO PIN0.31 
+  	IO0DIR =0X00000fff;   // PIN0.0 TO PIN0.11 work as output and PIN0.12 to PIN0.31 work as input mode
+  	PINSEL2=0X00000000;   // select the GPIO mode of PIN1.16 TO PIN1.31
+  	IO1DIR=0X0000000F;    // PIN1.16 to PIN0.19 work as output
+  	while(1)
+   	{ 
+     
+		input();  // display the text on led matrix
+   	}
+
+}
+
+// thuis fuction shift the data
+
+void shift_b(int x)
+{
+    int i;
+	for(i=0;i<x;i++)
+	{
+		IO0CLR=(0<<3);
+		pulse();	
+	}
+}
+
+// this fuction give pulse to 74HC595 ic
+
+void pulse()
+{
+  IO0SET=(3<<1);
+  IO0CLR=(3<<1);
+}
+
+// this fuction give input to 74LS138
+void data_m(int x)
+{
+ 	switch(x)
+ 	{
+  	case 1:
+  		IO1CLR=(1<<16);
+  		IO1CLR=(1<<17);
+  		IO1CLR=(1<<18);
+  		break;
+  	case 2:
+  		IO1SET=(1<<16);
+  		break;
+  	case 3:
+ 		IO1CLR=(1<<16);
+  		IO1SET=(1<<17);
+  		break;
+  	case 4:
+   		IO1SET=(1<<16);
+    	IO1SET=(1<<17);
+		break;
+  	case 5:
+   		IO1CLR=(1<<16);
+  		IO1CLR=(1<<17);
+  		IO1SET=(1<<18);
+  		break;
+  	case 6:
+   		IO1SET=(1<<16);
+   		break;
+   	case 7:
+   		IO1CLR=(1<<16);
+   		IO1SET=(1<<17);
+   		break;
+   	case 8:
+    	IO1SET=(1<<16);
+    	IO1SET=(1<<17);
+		break;
+	}
+
+}
+
+// display the text on led matrix
+void input()
+{
+	int i,j,k,l,m,n,x;
+  	for(l=0;l<19;l++)
+  	{
+		for(m=0;m<9;m++)
+		{
+		    for(n=0;n<15;n++)
+			{
+  				for(i=0;i<7;i++)
+  				{
+    				data_m(i+1);
+    				IO0CLR=(1<<0);
+    				IO0SET=(1<<0);
+    				for(j=l;j<7+l;j++)
+					{
+	   					x=DISPLAY_DATA(~ar[j][i]);
+	   					for(k=0;k<8;k++)
+	   					{
+	      					IO0SET=((x>>k)<<3);
+          					pulse();
+          					IO0CLR=((x>>k)<<3);  
+	   					}
+					}
+					shift_b(m);
+					delay_fv(15,33);
+  				}
+			}
+		}
+	}
+}
+
+void delay_fv(unsigned int x,int y)
+{
+ unsigned int i,j;
+ for(i=0;i<x;i++)
+ for(j=0;j<y;j++);
+}

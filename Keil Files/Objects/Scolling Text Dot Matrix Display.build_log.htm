@@ -1,0 +1,48 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.34.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: deepak soam, Dee! Tech Solutions, LIC=21E4T-RHXP8-JJD6S-LT6JL-P61JI-7MQ5L
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.34.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARM.DLL V5.34.0.0
+Dialog DLL:      DARMP.DLL V1.53.0.0
+Target DLL:      UL2ARM.DLL V1.74.14.0
+Dialog DLL:      TARMP.DLL V1.53.0.0
+ 
+<h2>Project:</h2>
+C:\Users\Dee!\Documents\Keil programms\Scrolling Text Display 8X56\Scolling Text Dot Matrix Display.uvproj
+Project File Date:  07/03/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'Target 1'
+assembling Startup.s...
+compiling ScrollingText.c...
+ScrollingText.c(6): warning:  #1295-D: Deprecated declaration pulse - give arg types
+  void pulse();   // this fuction give pulse to 74HC595 ic
+ScrollingText.c(10): warning:  #1295-D: Deprecated declaration input - give arg types
+  void input();   // this fuction display the data on led matrix
+ScrollingText.c(54): warning:  #177-D: variable "k"  was declared but never referenced
+        unsigned int k;
+ScrollingText.c(167): warning:  #1-D: last line of file ends without a newline
+  }
+ScrollingText.c: 4 warnings, 0 errors
+linking...
+Program Size: Code=1376 RO-data=32 RW-data=192 ZI-data=1256  
+FromELF: creating hex file...
+".\Objects\Scolling Text Dot Matrix Display.axf" - 0 Error(s), 4 Warning(s).
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
